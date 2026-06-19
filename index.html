@@ -166,7 +166,7 @@
     }
     .hero-poster {
       position: absolute; inset: 0;
-      background: url('https://images.pexels.com/photos/785537/pexels-photo-785537.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&dpr=1') center/cover no-repeat;
+      background: url('poster.jpg') center/cover no-repeat;
       z-index: 0; opacity: 1; transition: opacity 0.8s ease;
     }
     .hero-poster::after {
@@ -1049,11 +1049,7 @@
       video.setAttribute('webkit-playsinline', '');
       video.preload = 'auto';
 
-      var sources = [
-        'https://videos.pexels.com/video-files/4178342/4178342-hd_1920_1080_30fps.mp4',
-        'https://videos.pexels.com/video-files/7697111/7697111-hd_1920_1080_30fps.mp4',
-        'https://videos.pexels.com/video-files/4178353/4178353-hd_1920_1080_30fps.mp4'
-      ];
+      var sources = ['hero.mp4'];
       var srcIndex = 0;
       var playing = false;
 
