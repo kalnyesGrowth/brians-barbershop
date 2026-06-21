@@ -737,6 +737,10 @@ links.querySelectorAll('a').forEach(function(a){a.addEventListener('click',funct
     canvas.height=canvas.offsetHeight*(window.devicePixelRatio>1?1.5:1);
   }
 
+  var posterImg=new Image();
+  posterImg.src='poster.jpg';
+  posterImg.onload=function(){if(!playing){resize();ctx.drawImage(posterImg,0,0,canvas.width,canvas.height)}};
+
   function draw(){
     if(playing&&!video.paused&&!video.ended){
       var cw=canvas.width,ch=canvas.height;
@@ -750,12 +754,16 @@ links.querySelectorAll('a').forEach(function(a){a.addEventListener('click',funct
   }
 
   function tryPlay(){
-    video.play().then(function(){playing=true}).catch(function(){});
+    var p=video.play();
+    if(p&&p.then){p.then(function(){playing=true}).catch(function(){});}
   }
 
   video.addEventListener('canplay',function(){resize();tryPlay()});
+  video.addEventListener('loadeddata',function(){resize();tryPlay()});
   video.addEventListener('error',function(){});
-  window.addEventListener('resize',resize);
+  window.addEventListener('resize',function(){resize();if(!playing&&posterImg.complete){ctx.drawImage(posterImg,0,0,canvas.width,canvas.height)}});
+  document.addEventListener('touchstart',function h(){video.load();tryPlay();document.removeEventListener('touchstart',h)},{once:true,passive:true});
+  document.addEventListener('scroll',function h(){tryPlay();document.removeEventListener('scroll',h)},{once:true,passive:true});
   resize();
   draw();
   video.src='hero.mp4';
